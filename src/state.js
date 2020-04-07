@@ -6,15 +6,9 @@ const DEC = 'DEC'
 const EDIT_PERSON = 'EDIT_PERSON'
 
 // actions
-export const decrementBy5 = {type: DEC, payload: 5}
-export const decrementBy25 = {type: DEC, payload: 25}
-export const incrementBy5 = {type: INC, payload: 5}
-export const incrementBy25 = {type: INC, payload: 25}
-export const editFirstName = {
-  type: EDIT_PERSON,
-  payload: {},
-}
-export const editLastName = {type: EDIT_PERSON, payload: {}}
+export const decrement = value => ({type: DEC, payload: value})
+export const increment = value => ({type: INC, payload: value})
+export const editPerson = payload => ({type: EDIT_PERSON, payload})
 
 // reducers
 const initialCounterState = 0
@@ -22,7 +16,6 @@ const counterReducer = (
   state = initialCounterState,
   action,
 ) => {
-  // {type: '__INIT_REDUX_STORE__'}
   switch (action.type) {
     case INC:
       return state + action.payload

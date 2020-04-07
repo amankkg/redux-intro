@@ -1,11 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { decrement, increment } from './state'
+import { Controls } from './controls'
+import { ConnectedPersonInputs } from './person-inputs'
 
 const AppComponent = (props) => {
   const counter = props.counter
   const fullName = props.fullName
+  const increment = props.increment
+  const decrement = props.decrement
 
-  return <p>{fullName}: {counter}</p>
+  return (
+    <div>
+      <p>{fullName}: {counter}</p>
+      <Controls increment={increment} decrement={decrement} />
+      <ConnectedPersonInputs />
+    </div>
+  )
 }
 
 const mapStateToProps = state => {
@@ -17,13 +28,18 @@ const mapStateToProps = state => {
   return props
 }
 
-const App = connect(mapStateToProps)(AppComponent)
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const props = {
+    decrement: value => dispatch(decrement(value)),
+    increment: value => dispatch(increment(value)),
+  }
+
+  return props
+}
+
+const App = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AppComponent)
 
 export {App}
-
-// TESTS
-const state0 = {counter: 42, person: {firstName: 'John', lastName: 'Doe'}}
-const expectedProps = {counter: 42, fullName: 'John Doe'}
-
-console.log(mapStateToProps(state0).counter === expectedProps.counter)
-console.log(mapStateToProps(state0).fullName === expectedProps.fullName)
