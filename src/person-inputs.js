@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { connect } from 'react-redux'
-import { editPerson } from './state'
+import { editPerson } from './store/action-creators'
 
 const PersonInputs = ({
   firstName,
