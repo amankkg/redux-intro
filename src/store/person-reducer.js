@@ -1,8 +1,8 @@
 import {EDIT_PERSON, START_LOADING, FINISH_LOADING} from './action-types'
 
 const initialPersonState = {
-  firstName: 'John',
-  lastName: 'Doe',
+  firstName: '',
+  lastName: '',
   loading: false,
 }
 

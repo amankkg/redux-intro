@@ -1,20 +1,31 @@
 import React, { useCallback } from 'react'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { editPerson } from './store/action-creators'
 
-const PersonInputs = ({
-  firstName,
-  lastName,
-  editPerson,
-}) => {
+const PersonInputs = () => {
+  const {firstName, lastName} = useSelector(state => ({
+    firstName: state.person.firstName,
+    lastName: state.person.lastName,
+  }))
+
+  const dispatch = useDispatch()
+
   const onFirstNameChange = useCallback(
-    (e) => editPerson({field: 'firstName', value: e.target.value}),
-    [editPerson]
+    (e) => {
+      const payload = {field: 'firstName', value: e.target.value}
+      
+      dispatch(editPerson(payload))
+    },
+    [dispatch]
   )
 
   const onLastNameChange = useCallback(
-    (e) => editPerson({field: 'lastName', value: e.target.value}),
-    [editPerson]
+    (e) => {
+      const payload = {field: 'lastName', value: e.target.value}
+      
+      dispatch(editPerson(payload))
+    },
+    [dispatch]
   )
 
   return (
@@ -34,23 +45,4 @@ const PersonInputs = ({
   )
 }
 
-const mstp = (state,ownProps) => {
-  const props = {
-    firstName: state.person.firstName,
-    lastName: state.person.lastName,
-  }
-
-  return props
-}
-
-const mdtp = (dispatch, ownProps) => {
-  const props = {
-    editPerson: payload => dispatch(editPerson(payload))
-  }
-
-  return props
-}
-
-const ConnectedPersonInputs = connect(mstp, mdtp)(PersonInputs)
-
-export {ConnectedPersonInputs}
+export {PersonInputs}

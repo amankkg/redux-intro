@@ -23,17 +23,19 @@ export const finishLoading = () => ({
   type: FINISH_LOADING
 })
 
-export const loadInitialStateThunk = (id) => (dispatch) => {
+export const loadInitialStateThunk = (personId) => async (dispatch) => {
   dispatch(startLoading())
 
-  fetch('https://jsonplaceholder.typicode.com/users/1')
-    .then(resp => resp.json())
-    .then(user => {
-      const [firstName, lastName] = user.name.split(' ')
+  try {
+    const resp = await fetch(`https://jsonplaceholder.typicode.com/users/${personId}`)
+    const user = await resp.json()
 
-      dispatch(editPerson({field: 'firstName', value: firstName}))
-      dispatch(editPerson({field: 'lastName', value: lastName}))
-      dispatch(finishLoading())
-    })
-    .catch(() => dispatch(finishLoading()))
+    const [firstName, lastName] = user.name.split(' ')
+
+    dispatch(editPerson({field: 'firstName', value: firstName}))
+    dispatch(editPerson({field: 'lastName', value: lastName}))
+    dispatch(finishLoading())
+  } catch (error) {
+    dispatch(finishLoading())
+  }
 }
